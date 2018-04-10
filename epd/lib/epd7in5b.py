@@ -142,6 +142,8 @@ class EPD7IN5B():
     def clear_frame(self):
         self.fbuf.fill(3)
 
+
+    # TODO: Unfinished function to read framebuffer from code
     def get_frame_buffer(self, image):
         buf = bytearray(int(self.width * self.height / 4))
 
@@ -165,28 +167,6 @@ class EPD7IN5B():
 
     def display_frame(self):
         self.send_command(DATA_START_TRANSMISSION_1)
-        # for i in range(0, self.width / 4 * self.height):
-        #     temp1 = self.buffer[i]
-        #     j = 0
-        #     while (j < 4):
-        #         if ((temp1 & 0xC0) == 0xC0):
-        #             temp2 = 0x03
-        #         elif ((temp1 & 0xC0) == 0x00):
-        #             temp2 = 0x00
-        #         else:
-        #             temp2 = 0x04
-        #         temp2 = (temp2 << 4) & 0xFF
-        #         temp1 = (temp1 << 2) & 0xFF
-        #         j += 1
-        #         if((temp1 & 0xC0) == 0xC0):
-        #             temp2 |= 0x03
-        #         elif ((temp1 & 0xC0) == 0x00):
-        #             temp2 |= 0x00
-        #         else:
-        #             temp2 |= 0x04
-        #         temp1 = (temp1 << 2) & 0xFF
-        #         self.send_data(temp2)
-        #         j += 1
         self.send_data(self.buffer)
         self.send_command(DISPLAY_REFRESH)
         self.delay_ms(100)
@@ -246,22 +226,6 @@ class EPD7IN5B():
             y = EPD_HEIGHT - point_temp
             self.fbuf.pixel(x, y, colored)
 
-
-    # def set_absolute_pixel(self, frame_buffer, x, y, colored):
-    #     # To avoid display orientation effects
-    #     # use EPD_WIDTH instead of self.width
-    #     # use EPD_HEIGHT instead of self.height
-    #     if (x < 0 or x >= EPD_WIDTH or y < 0 or y >= EPD_HEIGHT):
-    #         return
-    #     if (colored):
-    #         #frame_buffer[int((x + y * EPD_WIDTH) / 8)] &= ~(0x80 >> (x % 8))
-    #         frame_buffer[int((x + y * EPD_WIDTH) / 4)] &= ~(0xC0 >> (x % 4 * 2))
-    #         frame_buffer[int((x + y * EPD_WIDTH) / 4)] |= 0x40 >> (x % 4 * 2)
-    #     else:
-    #         frame_buffer[int((x + y * EPD_WIDTH) / 4)] &= ~(0xC0 >> (x % 4 * 2))
-    #         #frame_buffer[int((x + y * EPD_WIDTH) / 8)] |= 0x80 >> (x % 8)
-
-
     def draw_char_at(self, x, y, char, font, colored):
         char_offset = (ord(char) - ord(' ')) * font.height * (int(font.width / 8) + (1 if font.width % 8 else 0))
         offset = 0
@@ -274,7 +238,6 @@ class EPD7IN5B():
                     offset += 1
             if font.width % 8 != 0:
                 offset += 1
-
 
     def display_string_at(self, x, y, text, font, colored):
         refcolumn = x
