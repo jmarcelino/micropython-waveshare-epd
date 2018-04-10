@@ -27,9 +27,10 @@ class BitmapHeaderInfo:
             raise ValueError # bit-depth
         if int.from_bytes(bytes[16:20], 'little') != 0:
             raise ValueError # compression
-        if int.from_bytes(bytes[32:36], 'little') > 1:
+        if int.from_bytes(bytes[32:36], 'little') > 2:
+            print("Colors", int.from_bytes(bytes[32:36], 'little'))
             raise ValueError # we accept at most 1 color
-        if int.from_bytes(bytes[36:40], 'little') > 1:
+        if int.from_bytes(bytes[36:40], 'little') > 2:
             raise ValueError # we accept at most 1 significant color
 
         self.width = int.from_bytes(bytes[4:8], 'little')
