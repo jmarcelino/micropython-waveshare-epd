@@ -43,7 +43,6 @@ epd.display_frame()
 epd.set_rotate(epd7in5b.ROTATE_0)
 epd.clear_frame()
 epd.draw_bmp('/flash/gfx/pycomLogo1bpp.bmp', epd7in5b.UNCOLORED)
-epd.draw_bmp('/flash/gfx/pycom.bmp', epd7in5b.COLORED)
 epd.display_frame()
 
 # You can import frame buffer directly:

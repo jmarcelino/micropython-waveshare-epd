@@ -235,7 +235,7 @@ class EPD7IN5B():
             point_temp = x
             x = EPD_WIDTH - y
             y = point_temp
-            self.fbuf.fbpixel(x, y, colored)
+            self.fbuf.pixel(x, y, colored)
         elif (self.rotate == ROTATE_180):
             x = EPD_WIDTH - x
             y = EPD_HEIGHT- y
